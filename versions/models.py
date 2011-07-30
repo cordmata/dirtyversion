@@ -42,9 +42,6 @@ class VersionedRelation(object):
             # if this is the head revision of the requesting model 
             # just return the heads of the relation
             return self.model_class.objects.current.filter(**filter_args)
-            print '\n\n'
-            print 'no clone date on {}'.format(instance.identity)
-            print '\n\n'
         else:
             # If the requesting model is a revision, only get the
             # related revisions as of the time the version was cloned.
@@ -73,13 +70,12 @@ class VersionedRelation(object):
             #        'identity': u'5f76b07b-692c-4330-afd6-05ec1cff8a37'
             #  }]
             #
-            # Now we just create a query that provides these versions.
-            # ORing Q objects
+            # Now we just create a query that provides these versions by
+            # ORing Q objects.
             latest_q = models.Q(**latest_idents[0])
             for ident in latest_idents[1:]:
                 latest_q.add(models.Q(**ident), models.Q.OR)
             return instance_qs.filter(latest_q)
-            #return self.model_class.objects.filter(latest_q)
 
 class Versionable(models.Model):
     vid = models.CharField(max_length=36, primary_key=True)
@@ -137,6 +133,12 @@ class Versionable(models.Model):
         else:
             return self.__class__.objects.current.get(identity=self.identity)
 
+
+#########################################################
+#
+# Example models for testing. 
+#
+########################################################
 class Attachment(Versionable):
     name = models.CharField(max_length=200)
 
