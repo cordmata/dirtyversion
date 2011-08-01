@@ -12,8 +12,6 @@ If a versioned resource is related to another versioned resource (currently only
 
 Usage is described in detail in the [unit tests](https://github.com/cordmata/dirtyversion/blob/master/versions/tests.py). Everything should be set up to run the tests out of the box -- just clone the repo and run:
 
+    ./manage.py syncdb
     ./manage.py test versions
-
-
-
 
